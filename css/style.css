@@ -1,3 +1,7 @@
+body, html {
+    height:100%;
+    color: #333;
+}
 body {
     padding: 0;
     margin: 0;
@@ -5,11 +9,52 @@ body {
 p {
     font-size: 16px;
 }
+/* Typography */
+.heading-underline, .heading-underline-inverse {
+    display: block;
+    margin-bottom: 1rem;
+    padding-bottom: .65rem;
+    position: relative;
+}
+.heading-underline-inverse::after, .heading-underline::after {
+    border-bottom: 5px solid;
+    bottom: 0;
+    content: '';
+    display: block;
+    height: 0;
+    min-width: 2rem;
+    position: absolute;
+    width: 1em
+}
+.heading-underline::after {
+    border-bottom-color: #88ceeb
+}
+.heading-underline-inverse::after {
+    border-bottom-color: #fff
+}
+/* Navigation */
+.navbar {
+    height: 60px;
+}
+/* Index Page */
+.form-intro {
+    min-height: calc(40% - 60px);
+}
+.about-intro {
+    min-height: 60%;
+    background-image: url('../images/bg/intropattern.png');
+    -webkit-box-shadow: 0px -1px 14px -9px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -1px 14px -9px rgba(0,0,0,0.75);
+    box-shadow: 0px -1px 14px -9px rgba(0,0,0,0.75);
+}
 /* Results Page */
-.results-cont {
-    background-image: url('../images/bg/weather.png');
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 100vh;
-    padding: 3rem;
+.results-header {
+    min-height: calc(20% - 60px);
+}
+.results-info-cont {
+    min-height: 80%;
+    background-image: url('../images/bg/intropattern.png');
+    -webkit-box-shadow: 0px -1px 14px -9px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -1px 14px -9px rgba(0,0,0,0.75);
+    box-shadow: 0px -1px 14px -9px rgba(0,0,0,0.75);
 }

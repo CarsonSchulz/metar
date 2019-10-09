@@ -1,8 +1,32 @@
+// Colors
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$primary:       #88ceeb;
+$secondary:     $gray-600 !default;
+$success:       #5eb97e;
+$info:          #39759c;
+$warning:       #dba946;
+$danger:        #f44336;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+// Utilities
 $border-radius:               0;
 $border-radius-lg:            0;
 $border-radius-sm:            0;
 
+// Fonts
 $font-family-sans-serif:    'Montserrat', sans-serif;
-$headings-font-family:      'Archivo Black', sans-serif;
+$headings-font-family:      'Cabin', sans-serif;
 
 @import "../node_modules/bootstrap/scss/bootstrap";

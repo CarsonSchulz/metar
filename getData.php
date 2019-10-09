@@ -1,6 +1,6 @@
 <?php
 //  Get the original data
-$rawMETAR = "KMIA 301853Z 04013G19KT 10SM BKN035 BKN060 BKN250 31/21 A2994 RMK AO2 SLP138 T03110211";
+$rawMETAR = "KSFB 091653Z 03007KT 10SM -RA BKN007 BKN018 OVC055 22/22 A3001 RMK AO2 SLP161 P0013 T02220222";
 echo "The given METAR is: " . $rawMETAR . '<br>';
 
 
@@ -85,7 +85,7 @@ if($legitMETAR) {
         
         //  Lets start getting the cloud layers
         if(strpos($brokenMETAR[$i], 'SKC') !== false || strpos($brokenMETAR[$i], 'NCD') !== false || strpos($brokenMETAR[$i], 'CLR') !== false || strpos($brokenMETAR[$i], 'NSC') !== false || strpos($brokenMETAR[$i], 'FEW') !== false || strpos($brokenMETAR[$i], 'SCT') !== false || strpos($brokenMETAR[$i], 'BKN') !== false || strpos($brokenMETAR[$i], 'OVC') !== false || strpos($brokenMETAR[$i], 'VV') !== false) {
-            if(strlen($brokenMETAR[$i]) >= 2 && strlen($brokenMETAR[$i]) <= 6){
+            if(strlen($brokenMETAR[$i]) >= 6){
                 $cloudLayerArray = buildCloudString($brokenMETAR[$i], $cloudLayerArray);
             }
         }
@@ -114,6 +114,7 @@ if($legitMETAR) {
 }
 else {
     echo "Something is wrong with your METAR!";
+    die();
 }
 
 //  Convert the data to a readable format
@@ -223,6 +224,13 @@ function compassRose($arg) {
     }
 }
 function buildCloudString($arg, $array) {
+
+    $specialType = false;
+
+    if(strpos($arg,'CB') !== false || strpos($arg,'CBMAM') !== false || strpos($arg,'CCSL') !== false || strpos($arg,'SCSL') !== false) {
+        $specialType = true;
+    }
+
     $cloudType = substr($arg, 0, 3);
 
     if($cloudType == 'SKC') {
@@ -253,11 +261,35 @@ function buildCloudString($arg, $array) {
         $cloudStr = "Clouds cannot be seen because of fog or heavy precipitation, so vertical visibility is given instead.";
     }
 
-    if(strlen($arg) == 6) {
-        $cloudAlt = substr($arg, 3 , 6) . '00';
+    if(strlen($arg) >= 6) {
+
+        $cloudAlt = preg_replace('/\D/', '', $arg) . '00';
         $cloudAlt = ltrim($cloudAlt, '0');
 
         $cloudStr = $cloudStr . ' at ' . $cloudAlt . 'ft';
+    }
+
+    if($specialType) {
+
+        $arglen = strlen($arg);
+
+        $specialTypeCode = substr($arg, 6 , $arglen);
+
+        if($specialTypeCode == 'CB') {
+            $specialTypeStr = "(Cumulonimbus clouds)";
+        }
+        if($specialTypeCode == 'CBMAM') {
+            $specialTypeStr = "(Cumulonimbus mammatus clouds)";
+        }
+        if($specialTypeCode == 'CCSL') {
+            $specialTypeStr = "(Cirrocumulus standing lenticular clouds)";
+        }
+        if($specialTypeCode == 'SCSL') {
+            $specialTypeStr = "(Stratocumulus standing lenticular clouds)";
+        }
+
+        $cloudStr = $cloudStr . ' ' . $specialTypeStr;
+
     }
 
     //  Insert values into an array
