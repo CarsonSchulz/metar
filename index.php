@@ -5,18 +5,18 @@
 <?php require_once("includes/nav.php"); ?>
 <div class="w-100 form-intro d-flex flex-wrap align-items-center">
     <div class="container">
-        <form>
-            <label for="exampleInputEmail1">Enter your METAR here <span class="text-danger">(North American format ONLY)</span>:</label>
+        <form method="post" action="results.php">
+            <label for="metarInput">Enter your METAR here <span class="text-danger">(North American format ONLY)</span>:</label>
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" id="exampleInputEmail1">
+                <input type="text" class="form-control" id="metarInput" name="metarInput">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button" id="button-addon2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="white" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
+                    <button class="btn btn-primary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="white" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-<div class="w-100 about-intro d-flex flex-wrap align-items-center py-5">
+<div class="w-100 about-intro d-flex flex-wrap align-items-center py-2">
     <div class="container">
         <div class="card shadow">
             <div class="card-body">

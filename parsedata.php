@@ -1,12 +1,6 @@
 <?php
-//  Get the original data
-$rawMETAR = "KSFB 091653Z 03007KT 10SM -RA BKN007 BKN018 OVC055 22/22 A3001 RMK AO2 SLP161 P0013 T02220222";
-echo "The given METAR is: " . $rawMETAR . '<br>';
-
-
 //  Break up the METAR string
 $brokenMETAR = explode(" ", $rawMETAR);
-echo print_r($brokenMETAR) . "<br><br>";
 
 
 //  Check to make sure that the METAR is starting legit
@@ -19,6 +13,24 @@ if(strlen($brokenMETAR[0]) === 4) {
     else {
         $fieldName = $brokenMETAR[0];
     }
+
+    $apiURL = "https://api.aeronautical.info/dev/?airport=" . $fieldName . "&include=demographic&include=geographic";
+    $file_headers = @get_headers($apiURL);
+    if($file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.0 404 Not Found') {
+        $legitMETAR = false;
+    }
+    else {
+        $airportData = file_get_contents($apiURL);
+        $airportObj = json_decode($airportData);
+        
+        $airportName = $airportObj->name;
+        $airportCity = $airportObj->city;
+        $airportState = $airportObj->state_name;
+        $airportLat = $airportObj->latitude_dms;
+        $airportLon = $airportObj->longitude_dms;
+
+    }
+
 }
 else {
     $legitMETAR = false;
@@ -28,7 +40,7 @@ else {
 //  Start the reading process
 
 //  Get default values
-$isAutomated = 'No';
+$isAutomated = false;
 $weatherConditionsArray = array();
 $cloudLayerArray = array();
 $remarkPoint = 0;
@@ -39,7 +51,7 @@ if($legitMETAR) {
 
         //  Find the wind values
         if($brokenMETAR[$i] == 'AUTO') {
-            $isAutomated = 'Yes';
+            $isAutomated = true;
         }
 
 
@@ -136,33 +148,6 @@ $altimeterSetting = substr($altimeterSetting, 1);
 $altimeterSetting = substr_replace($altimeterSetting, '.', 2, 0);
 
 
-
-//  Display the data in a nice format
-echo "<br>" . '<h3>Field Information</h3>';
-echo 'Field ICAO Identifier: ' . $fieldName  . '<br>';
-echo 'Fully-automated METAR: ' . $isAutomated . '<br>';
-
-echo "<br>" . '<h3>Weather Information</h3>';
-echo 'Time of report: Day ' . $reportingTimeDay . ' of the month @ ' . substr_replace($reportingTimeHours, ':', 2, 0) . ' Zulu (UTC)<br>';
-echo 'Wind Heading: ' . $windHeading . '&deg;'. compassRose($windHeading) . '<br>';
-echo 'Wind Speed: ' . ltrim($windSpeed, '0') . ' knots (' . knots2MPH($windSpeed) . ' mph)<br>';
-if(isset($gustSpeed)) {
-    echo 'Gust Speed: ' . ltrim($gustSpeed, '0') . ' knots (' . knots2MPH($gustSpeed) . ' mph)<br>';
-}
-echo 'Visibility: ' . $visibilityValue . ' statute miles.<br>';
-echo 'Temperature: ' . $temperature . '&deg;C (' . celsius2Fahrenheit($temperature) . '&deg;F)<br>';
-echo 'Dew Point: ' . $dewpoint . '&deg;C (' . celsius2Fahrenheit($dewpoint) . '&deg;F)<br>';
-echo 'Altimeter Setting: ' . $altimeterSetting . ' InHg (' . inHg2HPa($altimeterSetting) . ' HPa)<br>';
-echo "<br>" . '<h3>Weather Conditions</h3>';
-foreach($weatherConditionsArray as $condition) {
-    echo $condition . '<br>';
-}
-echo "<br>" . '<h3>Cloud Layers</h3>';
-foreach($cloudLayerArray as $cloud) {
-    echo $cloud . '<br>';
-}
-
-
 //  Needed functions
 function knots2MPH($val) {
     return round($val * 1.151);
@@ -175,53 +160,71 @@ function celsius2Fahrenheit($val) {
 }
 function compassRose($arg) {
     if($arg > 348.75 || $arg < 11.25) {
-        return "N";
+        $direction = "N";
+		$windIcon = "wi-towards-n";
     }
     if($arg > 11.25 && $arg < 33.75) {
-        return "NNE";
+        $direction = "NNE";
+		$windIcon = "wi-towards-nne";
     }
     if($arg > 33.75 && $arg < 56.25) {
-        return "NE";
+        $direction = "NE";
+		$windIcon = "wi-towards-ne";
     }
     if($arg > 56.25 && $arg < 78.75) {
-        return "ENE";
+        $direction = "ENE";
+		$windIcon = "wi-towards-ene";
     }
     if($arg > 78.75 && $arg < 101.25) {
-        return "E";
+        $direction = "E";
+		$windIcon = "wi-towards-e";
     }
     if($arg > 101.25 && $arg < 123.75) {
-        return "ESE";
+        $direction = "ESE";
+		$windIcon = "wi-towards-ese";
     }
     if($arg > 123.75 && $arg < 146.25) {
-        return "SE";
+        $direction = "SE";
+		$windIcon = "wi-towards-se";
     }
     if($arg > 146.25 && $arg < 168.75) {
-        return "SSE";
+        $direction = "SSE";
+		$windIcon = "wi-towards-sse";
     }
     if($arg > 168.75 && $arg < 191.25) {
-        return "S";
+        $direction = "S";
+		$windIcon = "wi-towards-s";
     }
     if($arg > 191.25 && $arg < 213.75) {
-        return "SSW";
+        $direction = "SSW";
+		$windIcon = "wi-towards-ssw";
     }
     if($arg > 213.75 && $arg < 236.25) {
-        return "SW";
+        $direction = "SW";
+		$windIcon = "wi-towards-sw";
     }
     if($arg > 236.25 && $arg < 258.75) {
-        return "WSW";
+        $direction = "WSW";
+		$windIcon = "wi-towards-wsw";
     }
     if($arg > 258.75 && $arg < 281.25) {
-        return "W";
+        $direction = "W";
+		$windIcon = "wi-towards-w";
     }
     if($arg > 281.25 && $arg < 303.75) {
-        return "WNW";
+        $direction = "WNW";
+		$windIcon = "wi-towards-wnw";
     }
     if($arg > 303.75 && $arg < 326.25) {
-        return "NW";
+        $direction = "NW";
+		$windIcon = "wi-towards-nw";
     }
     if($arg > 326.25 && $arg < 348.75) {
-        return "NNW";
+        $direction = "NNW";
+		$windIcon = "wi-towards-nnw";
     }
+
+    return $direction . "|" . $windIcon;
 }
 function buildCloudString($arg, $array) {
 
@@ -235,30 +238,39 @@ function buildCloudString($arg, $array) {
 
     if($cloudType == 'SKC') {
         $cloudStr = "No clouds/Sky clear";
+        $cloudIcon = "wi-day-sunny";
     }
     if($cloudType == 'NCD') {
         $cloudStr = "Nil Cloud detected";
+        $cloudIcon = "wi-day-sunny";
     }
     if($cloudType == 'CLR') {
         $cloudStr = "No clouds below 12,000 ft";
+        $cloudIcon = "wi-day-sunny";
     }
     if($cloudType == 'NSC') {
         $cloudStr = "No (nil) significant cloud";
+        $cloudIcon = "wi-day-sunny";
     }
     if($cloudType == 'FEW') {
         $cloudStr = "Few clouds";
+        $cloudIcon = "wi-day-sunny-overcast";
     }
     if($cloudType == 'SCT') {
         $cloudStr = "Scattered clouds";
+        $cloudIcon = "wi-day-cloudy";
     }
     if($cloudType == 'BKN') {
         $cloudStr = "Broken clouds";
+        $cloudIcon = "wi-cloudy";
     }
     if($cloudType == 'OVC') {
         $cloudStr = "Overcast clouds";
+        $cloudIcon = "wi-cloud";
     }
     if($cloudType == 'VV') {
         $cloudStr = "Clouds cannot be seen because of fog or heavy precipitation, so vertical visibility is given instead.";
+        $cloudIcon = "wi-fog";
     }
 
     if(strlen($arg) >= 6) {
@@ -266,7 +278,7 @@ function buildCloudString($arg, $array) {
         $cloudAlt = preg_replace('/\D/', '', $arg) . '00';
         $cloudAlt = ltrim($cloudAlt, '0');
 
-        $cloudStr = $cloudStr . ' at ' . $cloudAlt . 'ft';
+        $cloudStr = $cloudStr . ' @ ' . $cloudAlt . 'ft';
     }
 
     if($specialType) {
@@ -293,6 +305,9 @@ function buildCloudString($arg, $array) {
     }
 
     //  Insert values into an array
+
+    $cloudStr = $cloudStr . '|' . $cloudIcon;
+
     if(count($array) == 0) {
         $array[0] = $cloudStr;
     }
@@ -358,72 +373,95 @@ function buildWeatherString($arg, $array) {
 
         if($arg === 'DZ') {
             $condition = 'Drizzle';
+			$conditionIcon = "wi-showers";
         } 
         if($arg === 'RA') {
             $condition = 'Rain';
+			$conditionIcon = "wi-rain";
         } 
         if($arg === 'SN') {
             $condition = 'Snow';
+			$conditionIcon = "wi-snow";
         } 
         if($arg === 'SG') {
             $condition = 'Snow Grains';
+			$conditionIcon = "wi-snow";
         } 
         if($arg === 'IC') {
             $condition = 'Ice Crystals';
+			$conditionIcon = "wi-snowflake-cold";
         } 
         if($arg === 'PL') {
             $condition = 'Ice Pellets';
+			$conditionIcon = "wi-sleet";
         } 
         if($arg === 'GR') {
             $condition = 'Hail';
+			$conditionIcon = "wi-sleet";
         } 
         if($arg === 'GS') {
             $condition = 'Small Hail or Snow Pellets';
+			$conditionIcon = "wi-sleet";
         } 
         if($arg === 'UP') {
             $condition = 'Unknown precipitation';
+			$conditionIcon = "wi-rain-mix";
         } 
         if($arg === 'BR') {
             $condition = 'Mist';
+			$conditionIcon = "wi-fog";
         } 
         if($arg === 'FG') {
             $condition = 'Fog';
+			$conditionIcon = "wi-fog";
         } 
         if($arg === 'FU') {
             $condition = 'Smoke';
+			$conditionIcon = "wi-smoke";
         } 
         if($arg === 'DU') {
             $condition = 'Dust';
+			$conditionIcon = "wi-dust";
         } 
         if($arg === 'SA') {
             $condition = 'Sand';
+			$conditionIcon = "wi-sandstorm";
         } 
         if($arg === 'HZ') {
             $condition = 'Haze';
+			$conditionIcon = "wi-day-haze";
         } 
         if($arg === 'PY') {
             $condition = 'Spray';
+			$conditionIcon = "wi-raindrops";
         } 
         if($arg === 'VA') {
             $condition = 'Volcanic Ash';
+			$conditionIcon = "wi-volcano";
         } 
         if($arg === 'PO') {
             $condition = 'Well-Developed Dust/Sand Whirls';
+			$conditionIcon = "wi-sandstorm";
         } 
         if($arg === 'SQ') {
             $condition = 'Squalls';
+			$conditionIcon = "wi-rain";
         } 
         if($arg === 'FC') {
             $condition = 'Funnel Cloud';
+			$conditionIcon = "wi-tornado";
         } 
         if($arg === 'SS') {
             $condition = 'Sandstorm';
+			$conditionIcon = "wi-sandstorm";
         } 
         if($arg === 'DS') {
             $condition = 'Duststorm';
+			$conditionIcon = "wi-sandstorm";
         } 
         if($arg === 'TS') {
             $condition = 'Thunderstorm';
+			$conditionIcon = "wi-thunderstorm";
         } 
     }
 
@@ -444,6 +482,8 @@ function buildWeatherString($arg, $array) {
     }
 
     //  Insert values into an array
+    $weatherStr = $weatherStr . '|' . $conditionIcon;
+
     if(count($array) == 0) {
         $array[0] = $weatherStr;
     }

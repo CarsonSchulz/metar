@@ -7,8 +7,8 @@
 <meta name="author" content="Carson Schulz">
 
 <link href="https://fonts.googleapis.com/css?family=Cabin:600,700|Montserrat:500,600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.min.css" integrity="sha256-huyMLXBzKbUp+a2DHlEUmuJSmc2SQZiu/jbpELjYGSE=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css" integrity="sha256-KcCcakqMaamBrTFaxb9tkrP2iq1X8vUnsm86W8pRcgI=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.min.css" integrity="sha256-huyMLXBzKbUp+a2DHlEUmuJSmc2SQZiu/jbpELjYGSE=" crossorigin="anonymous" />
 <link href="css/theme.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 </head>
@@ -35,16 +35,82 @@
         <p>KSFB 091653Z 03007KT 10SM -RA BKN007 BKN018 OVC055 22/22 A3001 RMK AO2 SLP161 P0013 T02220222</p>
     </div>
 </div>
-<div class="results-info-cont d-flex flex-wrap align-items-center">
+<div class="results-info-cont d-flex flex-wrap align-items-center py-3">
     <div class="container">
         <div class="card px-2 py-4 shadow">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-2">
-                        asdfasdf
+                    <div class="col-md-2 text-center">
+                        <div class="w-100 h-100 border-right pr-2">
+                            <p class="small mb-0">METAR for:</p>
+                            <h1>KBKV</h1>
+                            <p class="small mb-0 mt-4">Report Time:</p>
+                            <p>21:31Z Day X of given month.</p>
+                            <p class="small mb-0 mt-4">Airport Name:</p>
+                            <p>CHICAGO O'HARE INTL</p>
+                            <p class="small mb-0 mt-4">City:</p>
+                            <p>CHICAGO</p>
+                            <p class="small mb-0 mt-4">State:</p>
+                            <p>ILLINOIS</p>
+                            <p class="small mb-0 mt-4">Latitude:</p>
+                            <p>41-58-28.2790N</p>
+                            <p class="small mb-0 mt-4">Longitude:</p>
+                            <p>087-54-23.7500W</p>
+                        </div>
                     </div>
                     <div class="col-md-10">
-asdfasdf
+                        <div class="container-fluid">
+                            <div class="row text-center border-bottom">
+                                <div class="col-md-3">
+                                    <i class="wi wi-thermometer results-icon"></i>
+                                    <h1>33&deg;F</h1>
+                                    <p class="small">Temperature</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="wi wi-strong-wind results-icon"></i>
+                                    <h1>24 mph</h1>
+                                    <p class="small">Wind Speed</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="wi wi-wind towards-wnw results-icon"></i>
+                                    <h1>12&deg;N</h1>
+                                    <p class="small">Wind Direction</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="wi wi-barometer results-icon"></i>
+                                    <h1>29.96 inHg</h1>
+                                    <p class="small">Pressure</p>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-4 pl-0">
+                                    <h5>Current Conditions</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><i class="wi wi-thunderstorm results-icon-add mr-2"></i> Thunderstorms</li>
+                                        <li class="list-group-item"><i class="wi wi-rain results-icon-add mr-2"></i> Light Rain</li>
+                                        <li class="list-group-item"><i class="wi wi-fog results-icon-add mr-2"></i> Fog</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Cloud Layers</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><i class="wi wi-cloud results-icon-add mr-2"></i> Overcast @ 2,000 ft</li>
+                                        <li class="list-group-item"><i class="wi wi-cloudy results-icon-add mr-2"></i> Broken @ 1,500 ft</li>
+                                        <li class="list-group-item"><i class="wi wi-day-cloudy results-icon-add mr-2"></i> Scattered @ 1,000 ft</li>
+                                        <li class="list-group-item"><i class="wi wi-day-sunny-overcast results-icon-add mr-2"></i> Few @ 500 ft</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Additional Remarks</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><i class="wi wi-raindrop results-icon-add mr-2"></i> Dew Point: 22&deg;F</li>
+                                        <li class="list-group-item">Station is not completely automatic</li>
+                                        <li class="list-group-item">Thunderstorm information not available</li>
+                                        <li class="list-group-item">Automated station with precipitation discriminator</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
