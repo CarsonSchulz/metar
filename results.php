@@ -41,18 +41,18 @@ function sanitize_input($METAR) {
                         <div class="w-100 h-100 border-right pr-2">
                             <p class="small mb-0">METAR for:</p>
                             <h1><?php echo $fieldName ?></h1>
-                            <p class="small mb-0 mt-4">Report Time:</p>
-                            <p><?php echo 'Day ' . $reportingTimeDay . ' of the month @ ' . substr_replace($reportingTimeHours, ':', 2, 0) . ' Zulu (UTC)' ?></p>
                             <p class="small mb-0 mt-4">Airport Name:</p>
-                            <p><?php echo $airportName; ?></p>
+                            <p><?php echo ucwords(strtolower($airportName)); ?></p>
                             <p class="small mb-0 mt-4">City:</p>
-                            <p><?php echo $airportCity; ?></p>
+                            <p><?php echo ucwords(strtolower($airportCity)); ?></p>
                             <p class="small mb-0 mt-4">State:</p>
-                            <p><?php echo $airportState; ?></p>
+                            <p><?php echo ucwords(strtolower($airportState)); ?></p>
                             <p class="small mb-0 mt-4">Latitude:</p>
                             <p><?php echo $airportLat; ?></p>
                             <p class="small mb-0 mt-4">Longitude:</p>
                             <p><?php echo $airportLon; ?></p>
+                            <p class="small mb-0 mt-4">Report Time:</p>
+                            <p><?php echo 'Day ' . $reportingTimeDay . ' of the month @ ' . substr_replace($reportingTimeHours, ':', 2, 0) . ' Zulu (UTC)' ?></p>
                         </div>
                     </div>
                     <div class="col-md-10">

@@ -22,12 +22,16 @@ if(strlen($brokenMETAR[0]) === 4) {
     else {
         $airportData = file_get_contents($apiURL);
         $airportObj = json_decode($airportData);
-        
+
         $airportName = $airportObj->name;
         $airportCity = $airportObj->city;
         $airportState = $airportObj->state_name;
         $airportLat = $airportObj->latitude_dms;
         $airportLon = $airportObj->longitude_dms;
+
+        if($airportState == null) {
+            $airportState = $airportObj->county;
+        }
 
     }
 
@@ -125,7 +129,7 @@ if($legitMETAR) {
 
 }
 else {
-    echo "Something is wrong with your METAR!";
+    header("Location: index.php");
     die();
 }
 

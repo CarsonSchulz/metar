@@ -5,8 +5,10 @@
 <?php require_once("includes/nav.php"); ?>
 <div class="w-100 form-intro d-flex flex-wrap align-items-center">
     <div class="container">
-        <form method="post" action="results.php">
-            <label for="metarInput">Enter your METAR here <span class="text-danger">(North American format ONLY)</span>:</label>
+        <div class="alert alert-danger d-none" role="alert" id="METARAlert">
+        </div>
+        <form method="post" action="results.php" onsubmit="return formValidate()" name="METARForm" required>
+            <label for="metarInput">Enter your METAR here <span class="text-danger">(USA and Canadian airports <b>ONLY</b>)</span>:</label>
             <div class="input-group input-group-lg">
                 <input type="text" class="form-control" id="metarInput" name="metarInput">
                 <div class="input-group-append">
@@ -32,5 +34,6 @@
         </div>
     </div>
 </div>
+<script src="js/validate.js"></script>
 </body>
 </html>
