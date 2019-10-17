@@ -8,23 +8,23 @@ The demo of the tool is <a href="https://carsons.me/metar">here</a>.
 
 ---
 
-##How To Use
+## How To Use
 
-###Step 1
+### Step 1
 
 - Gather a METAR from an aviation website or use the examples on the website
 
-###Step 2
+### Step 2
 
 - Enter it in the provided box.
 
-###Step 1
+### Step 1
 
 - View the data in a more friendly format.
 
 ---
 
-##Credit
+## Credit
 
 - Weather Icons - https://erikflowers.github.io/weather-icons/
 - Bootstrap - https://getbootstrap.com/
