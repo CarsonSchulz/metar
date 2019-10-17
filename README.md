@@ -18,7 +18,7 @@ The demo of the tool is <a href="https://carsons.me/metar">here</a>.
 
 - Enter it in the provided box.
 
-### Step 1
+### Step 3
 
 - View the data in a more friendly format.
 
