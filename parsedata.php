@@ -14,7 +14,7 @@ if(strlen($brokenMETAR[0]) === 4) {
         $fieldName = $brokenMETAR[0];
     }
 
-    $apiURL = "https://api.aeronautical.info/dev/?airport=" . $fieldName . "&include=demographic&include=geographic";
+    $apiURL = "https://api.aeronautical.info/dev/?appid=Cschulz996_metar&airport=" . $fieldName . "&include=demographic&include=geographic";
     $file_headers = @get_headers($apiURL);
     if($file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.0 404 Not Found') {
         $legitMETAR = false;
